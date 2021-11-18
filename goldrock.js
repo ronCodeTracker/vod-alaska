@@ -5,6 +5,7 @@
  *    Golden Rocks National Park 
  *    Author: Ronald Kiefer     
  *    Date:  September 21, 2021 
+ *    Update: October 15, 2021
 
  *    Filename: styles.js
  */
@@ -27,7 +28,11 @@ function validateUsername() {
        {
            throw "Username must be at least 4 characters";
        }
-
+        else if(/\W/.test(unInput.value) === true)
+        {
+           throw "Username must contain only letters and numbers"
+        }
+        
       // remove any username error styling and message
       unInput.style.background = "";
       errorDiv.style.display = "none";
@@ -66,6 +71,18 @@ function validatePassword() {
        {
            throw "Passwords must match";
        }
+       else if(/[a-zA-Z]/.test(pw1Input.value) === false)
+       {
+          throw "Password must contain at least one letter"
+       }
+       else if(/\d/.test(pw1Input.value) === false)
+       {
+          throw "Password must contain at least one number"
+       }
+       else if(/[!@#_]/.test(pw1Input.value) === false)
+       {
+          throw "Password must contain at least one of the following symbols: ! @ # _"
+       }
 
       // remove any password error styling and message
       pw1Input.style.background = "";
@@ -89,6 +106,7 @@ function validatePassword() {
 function validateEmail() {
    var emailInput = document.getElementById("emailbox");
    var errorDiv = document.getElementById("emailError");
+   let emailCheck = /^[_\w\-]+(\.[_\w\-]+)*@[\w\-]+(\.[\w\-]+)*(\.[\D]{2,6})$/
     try {
         console.log("emailInput = " + emailInput.value);
         console.log("emailInputSearch " + emailInput.value.search("."));
@@ -103,8 +121,9 @@ function validateEmail() {
        //        (/\.......$/.test(emailInput.value) === false)
        //         )
        // )
-        if ((/@/.test(emailInput.value) === false) ||
-            (/\..{2,6}$/.test(emailInput.value) === false))
+       // if ((/@/.test(emailInput.value) === false) ||
+       //     (/\..{2,6}$/.test(emailInput.value) === false))
+       if(emailCheck.test(emailInput.value) === false)
        {
            throw "Please provide a valid email address";
        }
@@ -138,13 +157,15 @@ function validateEmail() {
 
 // add lodging to profile
 function registerLodging(event) {
+   console.log('registerLodging has started')
    if (event === undefined) { // get caller element in IE8
       event = window.event;
    }
    var callerElement = event.target || event.srcElement;
    var lodgingName = callerElement.value;
-   if (callerElement.checked) { // if box has just been checked
-// replace with statement to add checkbox value to lodging array
+   if (callerElement.checked) { // add
+      // checkbox value to lodging array
+      lodging.push(lodgingName)
 
       // add checkbox value to list in profile section
       var newLodging = document.createElement("li");
@@ -157,15 +178,31 @@ function registerLodging(event) {
       var listItems = document.querySelectorAll("#profileLodgings li");
       for (var i = 0; i < listItems.length; i++) {
          if (listItems[i].innerHTML === lodgingName) {
-// replace with statement to remove element at index i from array
-
+         // remove element at index i from array 
+         lodging.splice(i,1)
             // remove lodging from profile list
             listItems[i].parentNode.removeChild(listItems[i]);
             break;
          }
       }
    }
+
+   
 }
+
+
+// convert form input to string for submission
+function convertToString()
+{
+   // convert lodging array to string
+   arrayString = lodging.toString()
+
+   //convert profile object to string
+   objectString = JSON.stringify(profile)
+   console.log(objectString)
+}
+
+
 
 function createEventListeners() {
    var unInput = document.getElementById("uname");
@@ -192,7 +229,20 @@ function createEventListeners() {
          lodgings[i].attachEvent("onchange", registerLodging);
       }
    }
+
+
+   var button = document.getElementById("createBtn")
+   if(button.addEventListener)
+   {
+      button.addEventListener('click', convertToString)
+   }
+   else if(button.attachEvent)
+   {
+      button.attachEvent('onclick', convertToString)
+   }
 }
+
+
 
 if (window.addEventListener) {
    window.addEventListener("load", createEventListeners, false);
