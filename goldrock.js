@@ -5,7 +5,7 @@
  *    Golden Rocks National Park 
  *    Author: Ronald Kiefer     
  *    Date:  September 21, 2021 
- *    Update: October 15, 2021
+ *    Update: October 17, 2021
 
  *    Filename: styles.js
  */
