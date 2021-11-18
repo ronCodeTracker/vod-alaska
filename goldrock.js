@@ -3,7 +3,7 @@
  *    Chapter case
 
  *    Golden Rocks National Park 
- *    Author: Ronald Kiefer  Hebrew:   ר ו נ  א ל ד       
+ *    Author: Ronald Kiefer  Hebrew Name:   ר ו נ  א ל ד       
  *    Date:  September 21, 2021 
  *    Update: October 17, 2021
 
